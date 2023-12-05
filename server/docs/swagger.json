@@ -1,0 +1,357 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "x9ald99rmafja"
+  },
+  "info": {
+    "title": "fast-food-pos-api",
+    "version": "1.0",
+    "description": "A fast-food Point of Sale API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "local server"
+    }
+  ],
+  "paths": {
+    "/products/{productId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "productId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Product Info by Product ID",
+        "tags": ["product"],
+        "responses": {
+          "200": {
+            "description": "Product Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "examples": {
+                  "Get Product \"Smash da casa\"": {
+                    "value": {
+                      "id": 142,
+                      "name": "Smash da casa",
+                      "description": "2× hambúrguer 200g",
+                      "price": 30.5,
+                      "imagePath": "hamburguer.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "get-products-productId",
+        "description": "Retrieve the information of the product with the matching product ID.",
+        "x-internal": true
+      }
+    },
+    "/products": {
+      "parameters": [],
+      "get": {
+        "summary": "Get available Products",
+        "operationId": "get-products",
+        "responses": {
+          "200": {
+            "description": "Product List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product",
+                    "x-stoplight": {
+                      "id": "tsdmtsa98dmu9"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Gets list of available products",
+        "x-internal": true,
+        "tags": ["product"]
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Create a new Order",
+        "operationId": "post-orders",
+        "responses": {
+          "201": {
+            "description": "Order Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "mx6idcixvri7l"
+                      }
+                    }
+                  },
+                  "required": ["orderId"]
+                }
+              }
+            }
+          }
+        },
+        "description": "Creates a new Order",
+        "x-internal": true,
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "title": "Product",
+        "type": "object",
+        "examples": [
+          {
+            "id": 142,
+            "name": "Smash da casa",
+            "description": "2× hambúrguer 200g",
+            "price": 30.5,
+            "imagePath": "hamburguer.jpg"
+          }
+        ],
+        "x-stoplight": {
+          "id": "byx5kvh83pdzb"
+        },
+        "x-internal": true,
+        "x-tags": ["product"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the given product."
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "g5zn5mw2spbzn"
+            }
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "goasfk7hemw7v"
+            }
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "x-stoplight": {
+              "id": "ogia32oqlwk7v",
+              "explicitProperties": ["type", "format", "examples"]
+            },
+            "example": 30.5
+          },
+          "imagePath": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "d0vadm9k2hzch"
+            },
+            "example": "image.png"
+          },
+          "productItems": {
+            "x-stoplight": {
+              "id": "9tjlhm5kcj8ji"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductItem",
+              "x-stoplight": {
+                "id": "4uk51v451gmoe"
+              }
+            }
+          }
+        },
+        "required": ["id", "name", "description", "price", "imagePath"],
+        "description": ""
+      },
+      "OrderItem": {
+        "title": "OrderItem",
+        "x-stoplight": {
+          "id": "qzgois421i51t"
+        },
+        "type": "object",
+        "x-internal": true,
+        "x-tags": ["order"],
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product",
+            "x-stoplight": {
+              "id": "65j9a6p0utjl5"
+            }
+          },
+          "quantity": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "7fu44mqn7ot1x"
+            },
+            "default": 1,
+            "minimum": 1
+          },
+          "extras": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "h5aiccyq3bk8o"
+            },
+            "items": {
+              "$ref": "#/components/schemas/ProductItem",
+              "x-stoplight": {
+                "id": "0nze8s77orl3y"
+              }
+            }
+          },
+          "notes": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "8dh60t54t02ch"
+            }
+          }
+        },
+        "required": ["product", "quantity"]
+      },
+      "Order": {
+        "title": "Order",
+        "x-stoplight": {
+          "id": "cavhphn2dn4lv"
+        },
+        "type": "object",
+        "x-internal": true,
+        "x-tags": ["order"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "vc5ks08it7agx"
+            }
+          },
+          "clientName": {
+            "x-stoplight": {
+              "id": "65j9a6p0utjl5"
+            },
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "iajrgzm01nrmu"
+            },
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "x-stoplight": {
+                "id": "ovvh9r17uqpho"
+              }
+            }
+          },
+          "code": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "66qwbkg9remhe"
+            }
+          },
+          "paymentMethods": {
+            "type": "array",
+            "x-stoplight": {
+              "id": "zgm55j5phb2uz"
+            },
+            "items": {
+              "x-stoplight": {
+                "id": "jdhjg6qsa08kf"
+              },
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "payed": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "yozk6t1e81gqv",
+              "explicitProperties": ["type", "format"]
+            },
+            "format": "float"
+          },
+          "change": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "kw7pznbu06gz9",
+              "explicitProperties": ["type", "format"]
+            },
+            "format": "float"
+          }
+        },
+        "required": ["clientName", "items", "payed"]
+      },
+      "ProductItem": {
+        "title": "ProductItem",
+        "x-stoplight": {
+          "id": "bbnytu3omi845"
+        },
+        "type": "object",
+        "x-internal": true,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "03117tym03p9s"
+            }
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "bsatuqildxutv"
+            }
+          },
+          "price": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "v4m6til2ip6ms"
+            },
+            "format": "float"
+          },
+          "imagePath": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "kke7gipqp783p"
+            }
+          }
+        },
+        "required": ["id", "name", "description", "price", "imagePath"],
+        "x-tags": ["product"]
+      }
+    }
+  },
+  "x-internal": true
+}
