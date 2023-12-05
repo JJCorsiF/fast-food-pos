@@ -3,8 +3,6 @@ import React from "react";
 
 import { Card, CardContent, CardFooter } from "./ui/card";
 
-// import { Container } from './styles';
-
 interface ProductCardProps {
   productName: string;
   imageSrc: string;
@@ -19,11 +17,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
   productPrice,
 }) => {
   return (
-    <Card className="w-full">
-      <CardContent className="flex flex-col items-center justify-center w-full mt-6">
+    <Card className="w-64 sm:w-52">
+      <CardContent className="flex flex-col items-center justify-center w-full mt-6 gap-2">
         <Image alt={productName} src={`/${imageSrc}`} height={85} width={85} />
-        <p className="font-bold text-center">{productName}</p>
-        <p className="font-extralight text-center">{productDescription}</p>
+        <div className="flex flex-col">
+          <p className="font-bold text-center">{productName}</p>
+          <p className="font-extralight text-center text-xs">
+            {productDescription}
+          </p>
+        </div>
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="font-bold text-center">
