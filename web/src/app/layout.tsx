@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins as FontSans } from "next/font/google";
 import "./globals.css";
 
+import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({
@@ -24,11 +25,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen max-w-full bg-background font-sans antialiased",
           fontSans.variable,
           fontSans.className,
         )}
       >
+        <Header />
         {children}
       </body>
     </html>
