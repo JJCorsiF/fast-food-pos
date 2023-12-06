@@ -12,7 +12,7 @@ Essa solução é baseada neste [protótipo](https://xd.adobe.com/view/426c6e77-
 
 ### Para a experiência do usuário
 
-- [ ] Para possibilitar a escolha do produto, o usuário deve poder ver a lista de produtos disponiveis.
+- [x] Para possibilitar a escolha do produto, o usuário deve poder ver a lista de produtos disponiveis.
 - [ ] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo nome.
 - [ ] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo código.
 - [ ] Para identificar quais produtos o cliente deseja, o usuário deve poder adicionar produtos ao pedido.
