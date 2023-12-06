@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { getProductList } from "@/api/product";
 import CategoryCard from "@/components/category-card";
@@ -10,7 +10,9 @@ import { Input } from "@/components/ui/input";
 import ProductDto from "@/types/product.dto";
 
 export default function Home() {
+  const [filteredProducts, setFilteredProducts] = useState<ProductDto[]>([]);
   const [products, setProducts] = useState<ProductDto[]>([]);
+  const [searchByName, setSearchByName] = useState("");
 
   const categories = [
     { name: "Combos", imageSrc: "combos.png" },
@@ -18,6 +20,10 @@ export default function Home() {
     { name: "Bebidas", imageSrc: "bebidas.png" },
     { name: "Sobremesas", imageSrc: "sobremesas.jpg" },
   ];
+
+  const onSearchChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    setSearchByName(ev.target.value);
+  };
 
   const getProducts = async () => {
     const res = await getProductList();
@@ -32,18 +38,32 @@ export default function Home() {
   };
 
   const fetchProducts = async () => {
-    setProducts(await getProducts());
+    const allProducts = await getProducts();
+    setProducts(allProducts);
+    setFilteredProducts(allProducts);
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    setFilteredProducts(
+      products.filter((product) =>
+        product.name.toLowerCase().includes(searchByName.toLowerCase()),
+      ),
+    );
+  }, [searchByName]);
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-12 px-12 py-12 sm:px-32">
       <div className="flex flex-col self-start gap-3">
         <h2 className="font-bold text-left text-2xl">Seja bem vindo!</h2>
-        <Input type="search" placeholder="O que você procura?" />
+        <Input
+          type="search"
+          placeholder="O que você procura?"
+          onChange={(ev) => onSearchChange(ev)}
+        />
       </div>
 
       <div className="flex flex-col w-full gap-5">
@@ -70,7 +90,7 @@ export default function Home() {
           </h4>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-4 sm:gap-x-24 sm:gap-y-6">
-          {products.map((product, idx) => (
+          {filteredProducts.map((product, idx) => (
             <ProductCard
               key={idx}
               imageSrc={product.imagePath}
