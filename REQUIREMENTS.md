@@ -12,7 +12,7 @@ Essa solução é baseada neste [protótipo](https://xd.adobe.com/view/426c6e77-
 
 ### Para a experiência do usuário
 
-- [x] Para possibilitar a escolha do produto, o usuário deve poder ver a lista de produtos disponiveis.
+- [x] Para possibilitar a escolha do produto, o usuário deve poder ver a lista de produtos disponíveis.
 - [ ] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo nome.
 - [ ] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo código.
 - [ ] Para identificar quais produtos o cliente deseja, o usuário deve poder adicionar produtos ao pedido.
@@ -25,6 +25,6 @@ Essa solução é baseada neste [protótipo](https://xd.adobe.com/view/426c6e77-
 
 ### Para a experiência da cozinha
 
-- [ ] Para que a cozinha saiba o que preparar, as informações do pedido reali devem aparecer para a cozinha.
+- [ ] Para que a cozinha saiba o que preparar, as informações do pedido realizado devem aparecer para a cozinha.
   - [ ] Para que a cozinha saiba para quem entregar o pedido, a cozinha deve saber o nome do cliente que fez o pedido.
 - [ ] Para notificar os clientes de que um pedido foi concluído (e estão disponíveis para entrega/recebimento), a cozinha deve poder dar baixa nos pedidos que já estiverem prontos.
