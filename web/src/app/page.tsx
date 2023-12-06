@@ -12,7 +12,7 @@ import ProductDto from "@/types/product.dto";
 export default function Home() {
   const [filteredProducts, setFilteredProducts] = useState<ProductDto[]>([]);
   const [products, setProducts] = useState<ProductDto[]>([]);
-  const [searchByName, setSearchByName] = useState("");
+  const [search, setSearch] = useState("");
 
   const categories = [
     { name: "Combos", imageSrc: "combos.png" },
@@ -22,7 +22,7 @@ export default function Home() {
   ];
 
   const onSearchChange = (ev: ChangeEvent<HTMLInputElement>) => {
-    setSearchByName(ev.target.value);
+    setSearch(ev.target.value);
   };
 
   const getProducts = async () => {
@@ -49,11 +49,13 @@ export default function Home() {
 
   useEffect(() => {
     setFilteredProducts(
-      products.filter((product) =>
-        product.name.toLowerCase().includes(searchByName.toLowerCase()),
+      products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(search.toLowerCase()) ||
+          product.code.toLowerCase().includes(search.toLowerCase()),
       ),
     );
-  }, [searchByName]);
+  }, [search]);
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-12 px-12 py-12 sm:px-32">

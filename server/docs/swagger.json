@@ -180,6 +180,12 @@
             },
             "example": "image.png"
           },
+          "code": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "732ty9qx73xa3"
+            }
+          },
           "productItems": {
             "x-stoplight": {
               "id": "9tjlhm5kcj8ji"
@@ -193,8 +199,7 @@
             }
           }
         },
-        "required": ["id", "name", "description", "price", "imagePath"],
-        "description": ""
+        "required": ["id", "name", "description", "price", "imagePath"]
       },
       "OrderItem": {
         "title": "OrderItem",

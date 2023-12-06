@@ -14,7 +14,7 @@ Essa solução é baseada neste [protótipo](https://xd.adobe.com/view/426c6e77-
 
 - [x] Para possibilitar a escolha do produto, o usuário deve poder ver a lista de produtos disponíveis.
 - [x] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo nome.
-- [ ] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo código.
+- [x] Para facilitar a escolha e seleção do produto, o usuário deve poder procurar o produto que quer pelo código.
 - [ ] Para identificar quais produtos o cliente deseja, o usuário deve poder adicionar produtos ao pedido.
 - [ ] Antes de finalizar o pedido, caso o clente mude de ideia e não queira mais algum produto, o usuário deve poder remover produtos do pedido.
 - [ ] Para confirmar os produtos adicionados ao pedido, o usuário deve poder acompanhar o resumo do pedido.

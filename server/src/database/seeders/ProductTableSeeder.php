@@ -19,7 +19,8 @@ class ProductTableSeeder extends Seeder
             'name' => "Smash da casa",
             'description' => '2× hambúrguer 200g',
             'price' => 30.50,
-            'imagePath' => "hamburguer.jpg"
+            'imagePath' => "hamburguer.jpg",
+            'code' => '123'
         ]);;
 
         $faker = \Faker\Factory::create();
@@ -29,7 +30,8 @@ class ProductTableSeeder extends Seeder
                 'name' => $faker->words(3, true),
                 'description' => $faker->sentence(3),
                 'price' => $faker->randomFloat(2, 0, 100),
-                'imagePath' => "hamburguer.jpg" //$faker->imageUrl(640, 480, 'food', true)
+                'imagePath' => "hamburguer.jpg", //$faker->imageUrl(640, 480, 'food', true)
+                'code' => fake()->numerify()
             ]);;
         }
     }

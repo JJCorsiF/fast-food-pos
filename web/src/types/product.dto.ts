@@ -3,4 +3,5 @@ export default interface ProductDto {
   imagePath: string;
   name: string;
   price: number;
+  code: string;
 }

@@ -20,7 +20,8 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(3),
             'price' => fake()->randomFloat(2, 0, 100),
-            'imagePath' => fake()->imageUrl(640, 480, 'food', true)
+            'imagePath' => fake()->imageUrl(640, 480, 'food', true),
+            'code' => fake()->numerify()
         ];
     }
 }
