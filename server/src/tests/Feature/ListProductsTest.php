@@ -19,13 +19,15 @@ class ListProductsTest extends TestCase
             'name' => 'hamburguer',
             'description' => 'com bastante queijo',
             'price' => 25.5,
-            'imagePath' => 'hamburguer.jpg'
+            'imagePath' => 'hamburguer.jpg',
+            'code' => '123'
         ];
         $secondProduct = [
             'name' => 'hamburguer duplo',
             'description' => 'dupla porção de queijo',
             'price' => 29.9,
-            'imagePath' => 'hamburguer.jpg'
+            'imagePath' => 'hamburguer.jpg',
+            'code' => '321'
         ];
         Product::factory()->create($firstProduct);
         Product::factory()->create($secondProduct);
@@ -42,7 +44,7 @@ class ListProductsTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                '*' => ['id', 'name', 'description', 'price', 'imagePath']
+                '*' => ['id', 'name', 'description', 'price', 'imagePath', 'code']
             ])
             ->assertJsonFragment($firstProduct)
             ->assertJsonFragment($secondProduct);
