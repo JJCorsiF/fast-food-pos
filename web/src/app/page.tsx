@@ -1,9 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+import { getProductList } from "@/api/product";
 import CategoryCard from "@/components/category-card";
 import ProductCard from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ProductDto from "@/types/product.dto";
 
 export default function Home() {
+  const [products, setProducts] = useState<ProductDto[]>([]);
+
   const categories = [
     { name: "Combos", imageSrc: "combos.png" },
     { name: "Acompanhamentos", imageSrc: "acompanhamentos.jpg" },
@@ -11,80 +19,25 @@ export default function Home() {
     { name: "Sobremesas", imageSrc: "sobremesas.jpg" },
   ];
 
-  const products = [
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-    {
-      description: "2× hambúrguer 200g",
-      imageSrc: "hamburguer.jpg",
-      name: "Smash da casa",
-      price: 30.5,
-    },
-  ];
+  const getProducts = async () => {
+    const res = await getProductList();
+
+    // Recommendation: handle errors
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.data;
+  };
+
+  const fetchProducts = async () => {
+    setProducts(await getProducts());
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-12 px-12 py-12 sm:px-32">
@@ -120,7 +73,7 @@ export default function Home() {
           {products.map((product, idx) => (
             <ProductCard
               key={idx}
-              imageSrc={product.imageSrc}
+              imageSrc={product.imagePath}
               productDescription={product.description}
               productName={product.name}
               productPrice={product.price}
