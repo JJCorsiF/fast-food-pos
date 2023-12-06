@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins as FontSans } from "next/font/google";
 import "./globals.css";
 
+import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Smash Food",
@@ -20,11 +25,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          inter.variable,
-          inter.className,
+          "min-h-screen max-w-full bg-background font-sans antialiased",
+          fontSans.variable,
+          fontSans.className,
         )}
       >
+        <Header />
         {children}
       </body>
     </html>
