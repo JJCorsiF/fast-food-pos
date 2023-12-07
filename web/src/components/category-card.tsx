@@ -15,7 +15,13 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   return (
     <Card className="w-64 sm:w-52">
       <CardContent className="flex items-center justify-center w-full mt-6">
-        <Image alt={categoryName} src={`/${imageSrc}`} height={85} width={85} />
+        <Image
+          alt={categoryName}
+          src={`/${imageSrc}`}
+          height={85}
+          width={85}
+          className="rounded-lg"
+        />
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="font-bold text-center">{categoryName}</p>
