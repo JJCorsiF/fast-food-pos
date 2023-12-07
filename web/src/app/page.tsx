@@ -1,5 +1,6 @@
 "use client";
 
+import { TrashIcon } from "@radix-ui/react-icons";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { getProductList } from "@/api/product";
@@ -44,8 +45,33 @@ export default function Home() {
 
   const addItemToOrder = (item: OrderItemDto | null) => {
     if (item) {
-      setOrderItems([...orderItems, item]);
-      order.items = [...orderItems, item];
+      let updatedOrderItems;
+      const existingOrderItem = orderItems.find(
+        (orderItem) => orderItem.product.code === item.product.code,
+      );
+      if (existingOrderItem) {
+        existingOrderItem.quantity = item.quantity;
+        updatedOrderItems = [
+          ...orderItems.filter(
+            (orderItem) => orderItem.product.code !== item.product.code,
+          ),
+          existingOrderItem,
+        ];
+      } else {
+        updatedOrderItems = [...orderItems, item];
+      }
+      setOrderItems(updatedOrderItems);
+      order.items = updatedOrderItems;
+    }
+  };
+
+  const removeItemFromOrder = (orderItem: OrderItemDto | null) => {
+    if (orderItem) {
+      let updatedOrderItems = orderItems.filter(
+        (item) => item.product.code !== orderItem.product.code,
+      );
+      setOrderItems(updatedOrderItems);
+      order.items = updatedOrderItems;
     }
   };
 
@@ -89,18 +115,31 @@ export default function Home() {
     <div id="order-details" className="w-96">
       <div className="">
         {orderItems.map((orderItem, idx) => (
-          <div key={idx} className="flex flex-row justify-between">
-            <div>
-              <span>{orderItem.quantity + "× " + orderItem.product.name}</span>
-              {orderItem.notes && (
-                <div>
-                  <span className="pl-3 font-light">
-                    {" "}
-                    Obs: {orderItem.notes}
-                  </span>
-                </div>
-              )}
+          <div key={idx} className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center gap-1">
+              <div>
+                <span>
+                  {orderItem.quantity + "× " + orderItem.product.name}
+                </span>
+                {orderItem.notes && (
+                  <div>
+                    <span className="pl-3 font-light">
+                      {" "}
+                      Obs: {orderItem.notes}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <Button
+                size="icon"
+                variant="destructive"
+                className="w-6 h-6 rounded-full"
+                onClick={() => removeItemFromOrder(orderItem)}
+              >
+                <TrashIcon height={16} width={16} />
+              </Button>
             </div>
+
             <div>
               <span>{`R$${orderItem.subtotal
                 .toFixed(2)
