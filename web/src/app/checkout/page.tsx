@@ -18,12 +18,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import OrderItemDto from "@/types/order-item.dto";
-import OrderDto from "@/types/order.dto";
+import PreOrderDto from "@/types/preorder.dto";
 
 import familyDinner from "@/assets/images/family-eating-food-dinner.jpg";
 
 export default function Checkout() {
-  const [order, setOrder] = useState<OrderDto | null>(null);
+  const [preOrder, setPreOrder] = useState<PreOrderDto | null>(null);
 
   const [payWithDebit, setPayWithDebit] = useState<boolean>(false);
   const [payWithCredit, setPayWithCredit] = useState<boolean>(false);
@@ -32,15 +32,15 @@ export default function Checkout() {
   const router = useRouter();
 
   useEffect(() => {
-    const orderData = localStorage.getItem("order");
+    const preOrderData = localStorage.getItem("order");
 
-    if (orderData === null) {
+    if (preOrderData === null) {
       return;
     }
 
-    const savedOrder = JSON.parse(orderData);
+    const savedPreOrder = JSON.parse(preOrderData);
 
-    const savedProductItems = savedOrder._items.map((orderItem: any) => {
+    const savedProductItems = savedPreOrder._items.map((orderItem: any) => {
       return new OrderItemDto(
         orderItem._product,
         orderItem._quantity,
@@ -49,7 +49,7 @@ export default function Checkout() {
       );
     });
 
-    setOrder(new OrderDto(savedProductItems));
+    setPreOrder(new PreOrderDto(savedProductItems));
   }, []);
 
   return (
@@ -72,7 +72,7 @@ export default function Checkout() {
                   className="flex flex-col justify-between h-36"
                 >
                   <div className="flex flex-col justify-between">
-                    {order?.items.map((orderItem, idx) => (
+                    {preOrder?.items.map((orderItem, idx) => (
                       <div className="flex flex-row justify-between">
                         <div>
                           <span>
@@ -90,10 +90,10 @@ export default function Checkout() {
                     ))}
                   </div>
                   <Separator />
-                  {order && (
+                  {preOrder && (
                     <div className="flex flex-row items-center justify-between">
                       <p>Total do pedido:</p>
-                      <p className="font-bold text-3xl">{`R$ ${order?.price
+                      <p className="font-bold text-3xl">{`R$ ${preOrder?.price
                         .toFixed(2)
                         .replace(/[,.]/g, (m) => (m === "," ? "." : ","))}`}</p>
                     </div>
@@ -176,7 +176,7 @@ export default function Checkout() {
             <div className="flex flex-row gap-6">
               <div className="flex flex-col gap-2">
                 <Label className="font-bold">Valor entregue</Label>
-                <Input value={`R$ ${order?.price ?? 0}`} />
+                <Input value={`R$ ${preOrder?.price ?? 0}`} />
               </div>
 
               <div className="flex flex-col gap-2">

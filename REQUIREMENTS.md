@@ -21,10 +21,10 @@ Essa solução é baseada neste [protótipo](https://xd.adobe.com/view/426c6e77-
   - [x] O sistema deve disponibilizar ao usuário o valor total do pedido e o troco.
 - [x] O usuário deve poder incluir o nome do cliente às informações do pedido, para fins de identificação.
 - [ ] Ao finalizar o pedido, o cliente deve receber os dados do pedido em uma via impressa (por uma impressora térmica), para fins de comprovação da compra.
-  - [ ] Ao finalizar o pedido, o sistema deve ser liberado para o próximo pedido.
+  - [x] Ao finalizar o pedido, o sistema deve ser liberado para o próximo pedido.
 
 ### Para a experiência da cozinha
 
-- [ ] Para que a cozinha saiba o que preparar, as informações do pedido realizado devem aparecer para a cozinha.
-  - [ ] Para que a cozinha saiba para quem entregar o pedido, a cozinha deve saber o nome do cliente que fez o pedido.
+- [x] Para que a cozinha saiba o que preparar, as informações do pedido realizado devem aparecer para a cozinha.
+  - [x] Para que a cozinha saiba para quem entregar o pedido, a cozinha deve saber o nome do cliente que fez o pedido.
 - [ ] Para notificar os clientes de que um pedido foi concluído (e estão disponíveis para entrega/recebimento), a cozinha deve poder dar baixa nos pedidos que já estiverem prontos.

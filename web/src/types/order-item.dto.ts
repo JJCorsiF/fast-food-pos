@@ -4,8 +4,8 @@ import ProductDto from "./product.dto";
 export default class OrderItemDto {
   constructor(
     private _product: ProductDto,
-    private _quantity: number,
-    private _extras: ProductItemDto[],
+    private _quantity: number = 1,
+    private _extras: ProductItemDto[] = [],
     private _notes: string = "",
   ) {}
 

@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/orders', [OrderController::class, 'list']);
+Route::post('/orders', [OrderController::class, 'create']);
 Route::get('/products', [ProductController::class, 'list']);
