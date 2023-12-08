@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/orders', [OrderController::class, 'list']);
-Route::posr('/orders', [OrderController::class, 'create']);
+Route::post('/orders', [OrderController::class, 'create']);
 Route::get('/products', [ProductController::class, 'list']);
