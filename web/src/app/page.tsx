@@ -1,6 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { getProductList } from "@/api/product";
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import OrderItemDto from "@/types/order-item.dto";
 import OrderDto from "@/types/order.dto";
@@ -33,7 +35,7 @@ export default function Home() {
   const [quantity, setQuantity] = useState<number>(
     selectedOrderItem?.quantity ?? 1,
   );
-  const [order, setOrder] = useState<OrderDto>(new OrderDto([]));
+  const [order, setOrder] = useState<OrderDto | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItemDto[]>([]);
 
   const categories = [
@@ -61,7 +63,9 @@ export default function Home() {
         updatedOrderItems = [...orderItems, item];
       }
       setOrderItems(updatedOrderItems);
-      order.items = updatedOrderItems;
+      if (order) {
+        order.items = updatedOrderItems;
+      }
     }
   };
 
@@ -71,7 +75,9 @@ export default function Home() {
         (item) => item.product.code !== orderItem.product.code,
       );
       setOrderItems(updatedOrderItems);
-      order.items = updatedOrderItems;
+      if (order) {
+        order.items = updatedOrderItems;
+      }
     }
   };
 
@@ -99,6 +105,26 @@ export default function Home() {
 
   useEffect(() => {
     fetchProducts();
+
+    const orderData = localStorage.getItem("order");
+
+    if (orderData === null) {
+      setOrder(new OrderDto([]));
+      return;
+    }
+
+    const savedOrder = JSON.parse(orderData);
+
+    const savedProductItems = savedOrder._items.map((orderItem: any) => {
+      return new OrderItemDto(
+        orderItem._product,
+        orderItem._quantity,
+        orderItem._extras,
+        orderItem._notes,
+      );
+    });
+
+    setOrder(new OrderDto(savedProductItems));
   }, []);
 
   useEffect(() => {
@@ -148,10 +174,10 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <hr />
+      <Separator />
       <div>
         <p>Total do pedido:</p>
-        <p className="font-bold text-3xl">{`R$${order.price
+        <p className="font-bold text-3xl">{`R$${order?.price
           .toFixed(2)
           .replace(/[,.]/g, (m) => (m === "," ? "." : ","))}`}</p>
       </div>
@@ -197,7 +223,7 @@ export default function Home() {
             {filteredProducts.map((product, idx) => (
               <DialogTrigger
                 onClick={() => {
-                  const existingOrderItem = order.items.find(
+                  const existingOrderItem = order?.items.find(
                     (item) => item.product.code === product?.code,
                   );
 
@@ -289,7 +315,7 @@ export default function Home() {
                         )}`}</span>
                     </div>
                   </div>
-                  <hr />
+                  <Separator />
                   <div>
                     <p>Subtotal:</p>
                     <p className="font-bold text-3xl">{`R$ ${selectedOrderItem?.subtotal
@@ -335,13 +361,20 @@ export default function Home() {
         <div className="flex flex-row gap-4">
           <Button
             size="lg"
-            variant="secondary"
+            variant="outline"
+            className="border border-primary text-primary font-semibold"
             disabled={orderItems.length < 1}
           >
             Cancelar
           </Button>
-          <Button size="lg" disabled={orderItems.length < 1}>
-            Finalizar pedido
+          <Button
+            size="lg"
+            disabled={orderItems.length < 1}
+            onClick={() => {
+              localStorage.setItem("order", JSON.stringify(order));
+            }}
+          >
+            <Link href={"/checkout"}>Finalizar pedido</Link>
           </Button>
         </div>
       </div>
