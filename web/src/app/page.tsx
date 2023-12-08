@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import OrderItemDto from "@/types/order-item.dto";
-import OrderDto from "@/types/order.dto";
+import PreOrderDto from "@/types/preorder.dto";
 import ProductDto from "@/types/product.dto";
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
   const [quantity, setQuantity] = useState<number>(
     selectedOrderItem?.quantity ?? 1,
   );
-  const [order, setOrder] = useState<OrderDto | null>(null);
+  const [preOrder, setPreOrder] = useState<PreOrderDto | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItemDto[]>([]);
 
   const categories = [
@@ -63,8 +63,8 @@ export default function Home() {
         updatedOrderItems = [...orderItems, item];
       }
       setOrderItems(updatedOrderItems);
-      if (order) {
-        order.items = updatedOrderItems;
+      if (preOrder) {
+        preOrder.items = updatedOrderItems;
       }
     }
   };
@@ -75,8 +75,8 @@ export default function Home() {
         (item) => item.product.code !== orderItem.product.code,
       );
       setOrderItems(updatedOrderItems);
-      if (order) {
-        order.items = updatedOrderItems;
+      if (preOrder) {
+        preOrder.items = updatedOrderItems;
       }
     }
   };
@@ -106,16 +106,16 @@ export default function Home() {
   useEffect(() => {
     fetchProducts();
 
-    const orderData = localStorage.getItem("order");
+    const preOrderData = localStorage.getItem("order");
 
-    if (orderData === null) {
-      setOrder(new OrderDto([]));
+    if (preOrderData === null) {
+      setPreOrder(new PreOrderDto([]));
       return;
     }
 
-    const savedOrder = JSON.parse(orderData);
+    const savedPreOrder = JSON.parse(preOrderData);
 
-    const savedProductItems = savedOrder._items.map((orderItem: any) => {
+    const savedProductItems = savedPreOrder._items.map((orderItem: any) => {
       return new OrderItemDto(
         orderItem._product,
         orderItem._quantity,
@@ -124,7 +124,7 @@ export default function Home() {
       );
     });
 
-    setOrder(new OrderDto(savedProductItems));
+    setPreOrder(new PreOrderDto(savedProductItems));
   }, []);
 
   useEffect(() => {
@@ -177,7 +177,7 @@ export default function Home() {
       <Separator />
       <div>
         <p>Total do pedido:</p>
-        <p className="font-bold text-3xl">{`R$${order?.price
+        <p className="font-bold text-3xl">{`R$${preOrder?.price
           .toFixed(2)
           .replace(/[,.]/g, (m) => (m === "," ? "." : ","))}`}</p>
       </div>
@@ -223,7 +223,7 @@ export default function Home() {
             {filteredProducts.map((product, idx) => (
               <DialogTrigger
                 onClick={() => {
-                  const existingOrderItem = order?.items.find(
+                  const existingOrderItem = preOrder?.items.find(
                     (item) => item.product.code === product?.code,
                   );
 
@@ -371,7 +371,7 @@ export default function Home() {
             size="lg"
             disabled={orderItems.length < 1}
             onClick={() => {
-              localStorage.setItem("order", JSON.stringify(order));
+              localStorage.setItem("order", JSON.stringify(preOrder));
             }}
           >
             <Link href={"/checkout"}>Finalizar pedido</Link>
